@@ -1,4 +1,4 @@
-function mapped_label = map_label(label)
+function [mapped_label, label_name] = map_label(label)
     mapping = {{'Sky'};
                {'Building', 'Wall', 'Bridge', 'Tunnel', 'Archway'};
                {'Column_Pole', 'TrafficCone'};
@@ -13,12 +13,14 @@ function mapped_label = map_label(label)
               };
 
     mapped_label = 0;
+    label_name = 'None';
     for i = 1:numel(mapping)
         class = mapping{i};
         for j = 1:numel(class)
             labelz = class{j};
             if strcmp(labelz, label)
                 mapped_label = i;
+                label_name = class{1};
                 break;
             end
         end
