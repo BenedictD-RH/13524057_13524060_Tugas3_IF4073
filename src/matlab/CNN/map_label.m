@@ -12,17 +12,17 @@ function mapped_label = map_label(label)
                {'Bicyclist', 'MotorcycleScooter'};
               };
 
-    mapped_label = 'None';
+    mapped_label = 0;
     for i = 1:numel(mapping)
         class = mapping{i};
         for j = 1:numel(class)
             labelz = class{j};
             if strcmp(labelz, label)
-                mapped_label = class{1};
+                mapped_label = i;
                 break;
             end
         end
-        if strcmp(mapped_label, 'None') == 0
+        if mapped_label ~= 0
             break;
         end
     end
