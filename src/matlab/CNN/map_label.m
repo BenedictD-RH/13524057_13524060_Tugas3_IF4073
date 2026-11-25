@@ -11,7 +11,7 @@ function [mapped_label, label_name] = map_label(label)
                {'Pedestrian', 'Child', 'CartLuggagePram', 'Animal'};
                {'Bicyclist', 'MotorcycleScooter'};
               };
-
+    
     mapped_label = 0;
     label_name = 'None';
     for i = 1:numel(mapping)
