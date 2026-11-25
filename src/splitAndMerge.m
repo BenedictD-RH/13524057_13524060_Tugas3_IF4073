@@ -1,8 +1,9 @@
-function segmentedImg = splitAndMerge(img, threshold)
+function [segmentedImg, finalLabels, splitLabels] = splitAndMerge(img, threshold)
 	% Partition a grayscale or RGB image into homogeneous regions.
-	% Floating-point images use [0,1]. 
-	% The threshold is the maximum allowed grayscale range in [0,1]. 
-	% The output shows each region's per-channel mean and keeps the input size and class.
+	% Floating-point images use [0,1].
+	% The threshold is the maximum allowed grayscale range in [0,1].
+	% The mean-color image keeps the input size and class. Both label matrices
+	% use consecutive positive integers and keep the spatial dimensions.
 
 	% Measure homogeneity on a grayscale intensity scale from 0 to 1.
 	gray = im2double(img);
@@ -11,11 +12,12 @@ function segmentedImg = splitAndMerge(img, threshold)
 	end
 
 	% Split the image into homogeneous rectangles, then merge adjacent regions.
-	[labels, regionPixels, regionMin, regionMax] = splitIntoLeaves(gray, threshold);
-	labels = mergeNeighbors(labels, regionPixels, regionMin, regionMax, threshold);
+	[splitLabels, regionPixels, regionMin, regionMax] = splitIntoLeaves(gray, threshold);
+	labels = mergeNeighbors(splitLabels, regionPixels, regionMin, regionMax, threshold);
 
 	% Renumber labels consecutively so they can index the counts and sums.
 	[~, ~, labels] = unique(labels(:));
+	finalLabels = reshape(labels, size(gray));
 	pixelCounts = accumarray(labels, 1);
 	segmentedImg = zeros(size(img), 'like', img);
 	for channel = 1:size(img, 3)
