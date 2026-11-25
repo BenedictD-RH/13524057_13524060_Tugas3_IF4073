@@ -1,8 +1,8 @@
-function segmentedImg = edgeSegmentation(img, edgeMap, closingRadius)
+function [segmentedImg, selectedMask] = edgeSegmentation(img, edgeMap, closingRadius)
 	% Keep the largest four-connected interior in a grayscale or RGB image.
-	% Use a logical edge map of the same height and width. 
-	% The closing radius is a nonnegative integer in pixels. 
-	% The output keeps the size and class.
+	% Use a logical edge map of the same height and width.
+	% The closing radius is a nonnegative integer in pixels.
+	% The image keeps its size and class. The logical mask marks the interior.
 
 	% Close short gaps so contours can enclose regions.
 	closedEdges = edgeMap;
